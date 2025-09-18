@@ -1,11 +1,9 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-from google.oauth2.service_account import Credentials
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 import telegram
-import gspread
-import os
-import json
 
 # ------------------------
 # CONFIG
@@ -20,14 +18,10 @@ BROADCAST_SHEET = "BroadcastLogs"
 USER_BLOCKED_BOT_SHEET = "UserBlockedBot"
 
 # ------------------------
-# GOOGLE SHEET SETUP (From Environment)
+# GOOGLE SHEET SETUP
 # ------------------------
-creds_info = json.loads(os.environ["GOOGLE_CREDENTIALS"])
-creds = Credentials.from_service_account_info(
-    creds_info,
-    scopes=["https://www.googleapis.com/auth/spreadsheets",
-            "https://www.googleapis.com/auth/drive"]
-)
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+creds = ServiceAccountCredentials.from_json_keyfile_name("1Xcredentials.json", scope)
 gc = gspread.authorize(creds)
 sheet = gc.open(GOOGLE_SHEET_NAME)
 
@@ -86,7 +80,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     username = update.effective_user.username or "No Username"
 
     save_user(user_id, user_name, username)
-    await update.message.reply_text("မင်္ဂလာပါ👋 EUROPA369 မှ ကြိုဆိုပါတယ်နော်")
+    await update.message.reply_text("မင်္ဂလာပါ👋 Buffalo688 မှ ကြိုဆိုပါတယ်နော်")
 
     for admin_id in ADMIN_IDS:
         sent_msg = await context.bot.send_message(
@@ -197,7 +191,7 @@ async def handle_admin_reply(update: Update, context: ContextTypes.DEFAULT_TYPE)
             )
 
 # ------------------------
-# BROADCAST TO USERS
+# BROADCAST (LOG USER WHO BLOCKED BOT)
 # ------------------------
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id not in ADMIN_IDS:
@@ -268,7 +262,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 # ------------------------
-# MAIN FUNCTION
+# MAIN
 # ------------------------
 def main():
     app = Application.builder().token(BOT_TOKEN).build()

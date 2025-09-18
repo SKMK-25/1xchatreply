@@ -21,7 +21,7 @@ USER_BLOCKED_BOT_SHEET = "UserBlockedBot"
 # GOOGLE SHEET SETUP
 # ------------------------
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("1Xcredentials.json", scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
 gc = gspread.authorize(creds)
 sheet = gc.open(GOOGLE_SHEET_NAME)
 
@@ -80,7 +80,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     username = update.effective_user.username or "No Username"
 
     save_user(user_id, user_name, username)
-    await update.message.reply_text("မင်္ဂလာပါ👋 Buffalo688 မှ ကြိုဆိုပါတယ်နော်")
+    await update.message.reply_text(""""မင်္ဂလာပါ👋 Europa369 မှ ကြိုဆိုပါတယ်နော်
+
+ဒါက ညီမတို့ဂိမ်းလင့်လေးပါရှင့် အကို ဒီလင့်မှာ ကိုယ်တိုင် အကောင့်ဝင်ဖွင့်လို့ရပါတယ်ရှင့်။
+
+https://m.buffalo688.com/auth/register?code=GNYKLW
+
+အဆင်မပြေတာရှိရင်ညီမတို့ကိုမေးလို့ရပါတယ်ရှင့်။""")
 
     for admin_id in ADMIN_IDS:
         sent_msg = await context.bot.send_message(

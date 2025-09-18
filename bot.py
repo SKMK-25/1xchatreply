@@ -1,9 +1,11 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 from datetime import datetime
 import telegram
+import gspread
+import os
+import json
 
 # ------------------------
 # CONFIG
@@ -18,10 +20,14 @@ BROADCAST_SHEET = "BroadcastLogs"
 USER_BLOCKED_BOT_SHEET = "UserBlockedBot"
 
 # ------------------------
-# GOOGLE SHEET SETUP
+# GOOGLE SHEET SETUP (From Environment)
 # ------------------------
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("1Xcredentials.json", scope)
+creds_info = json.loads(os.environ["GOOGLE_CREDENTIALS"])
+creds = Credentials.from_service_account_info(
+    creds_info,
+    scopes=["https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"]
+)
 gc = gspread.authorize(creds)
 sheet = gc.open(GOOGLE_SHEET_NAME)
 
@@ -191,7 +197,7 @@ async def handle_admin_reply(update: Update, context: ContextTypes.DEFAULT_TYPE)
             )
 
 # ------------------------
-# BROADCAST (LOG USER WHO BLOCKED BOT)
+# BROADCAST TO USERS
 # ------------------------
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id not in ADMIN_IDS:
@@ -262,7 +268,7 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 # ------------------------
-# MAIN
+# MAIN FUNCTION
 # ------------------------
 def main():
     app = Application.builder().token(BOT_TOKEN).build()

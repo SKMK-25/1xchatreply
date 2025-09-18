@@ -1,4 +1,1 @@
-worker: python3 1xbot-t.py
-
-
-
+worker: python bot.py

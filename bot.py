@@ -11,7 +11,7 @@ import json
 # CONFIG
 # ------------------------
 BOT_TOKEN = "7068376411:AAGzavPyfycKGwPJYYAmAtPfDOPT9kr7T6k"
-ADMIN_IDS = [1429922548]
+ADMIN_IDS = [1429922548, 2005369016]
 
 GOOGLE_SHEET_NAME = "TelegramUserData"
 BLOCKED_SHEET = "Blocked"
@@ -287,3 +287,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

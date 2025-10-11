@@ -86,7 +86,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     username = update.effective_user.username or "No Username"
 
     save_user(user_id, user_name, username)
-    await update.message.reply_text("မင်္ဂလာပါ👋 Buffalo688 မှ ကြိုဆိုပါတယ်နော်")
+    await update.message.reply_text("မင်္ဂလာပါရှင့်👋 EUROPA369 မှ ကြိုဆိုပါတယ်နော်")
 
     for admin_id in ADMIN_IDS:
         sent_msg = await context.bot.send_message(
@@ -287,4 +287,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
